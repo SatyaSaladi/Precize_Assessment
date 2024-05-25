@@ -1,0 +1,28 @@
+import requests
+import json
+import time
+
+def fetch_top_models():
+    url = "https://huggingface.co/api/models?sort=downloads"
+    response = requests.get(url)
+    models = response.json()
+
+    top_models = sorted(models, key=lambda x: x['downloads'], reverse=True)[:10]
+    return top_models
+
+def generate_report():
+    top_models = fetch_top_models()
+    report = "Top 10 Downloaded Models:\n\n"
+    
+    for i, model in enumerate(top_models, 1):
+        report += f"{i}. {model['modelId']} - {model['downloads']} downloads\n"
+    
+    with open("report.txt", "w") as file:
+        file.write(report)
+    
+    print("Report generated and saved to report.txt")
+
+if __name__ == "__main__":
+    generate_report()
+    time.sleep(10)  # Sleep for 10 seconds to simulate periodic task
+    print("Stopping container after report generation.")
