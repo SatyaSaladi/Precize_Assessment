@@ -1,0 +1,14 @@
+# Use the official Python image from the Docker Hub
+FROM python:3.8-slim
+
+# Set the working directory
+WORKDIR /app
+
+# Copy the Python script into the container
+COPY generate_report.py .
+
+# Install necessary Python packages
+RUN pip install requests
+
+# Command to run the Python script
+CMD ["python", "generate_report.py"]
